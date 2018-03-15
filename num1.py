@@ -8,20 +8,20 @@ table = [
 accepting_states = [2, 3]
 def visitNFA(table, input_, accepting_states):
 
-	as_ = [1] + ([0] * len(table))
+	active_states = [1] + ([0] * len(table))
 	for char in input_:
 		temp = [0] * len(table)
-		ns = []
-		for i, a in enumerate(as_):
-			if a:
+		next_states = []
+		for i, state in enumerate(active_states):
+			if state:
 				# [row][column]
-				ns = [j for j in table[i][char]]
-		for k in ns:
+				next_states = [j for j in table[i][char]]
+		for k in next_states:
 			temp[k] = 1
-		as_ = temp
+		active_states = temp
 
 	for s in accepting_states:
-		if as_[s] == 1:
+		if active_states[s] == 1:
 			return True
 	return False
 
