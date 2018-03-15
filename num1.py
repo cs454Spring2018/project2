@@ -16,7 +16,8 @@ def visitNFA(table, input_, accepting_states):
 		for i, state in enumerate(active_states):
 			if state:
 				# [row][column]
-				next_states = [j for j in table[i][char]]
+				for j in table[i][char]:
+					next_states.append(j)
 		for k in next_states:
 			temp[k] = 1
 		active_states = temp
