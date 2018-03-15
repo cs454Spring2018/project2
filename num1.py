@@ -21,7 +21,7 @@ def visitNFA(table, input_, accepting_states):
 		active_states = temp
 
 	for s in accepting_states:
-		if active_states[s] == 1:
+		if active_states[s]:
 			return True
 	return False
 
