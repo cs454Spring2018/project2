@@ -8,9 +8,9 @@ table = [
 accepting_states = [2, 3]
 def visitNFA(table, input_, accepting_states):
 
-	as_ = [1] + [0 for i in table]
+	as_ = [1] + ([0] * len(table))
 	for char in input_:
-		temp = [0 for i in table]
+		temp = [0] * len(table)
 		ns = []
 		for i, a in enumerate(as_):
 			if a:
