@@ -83,9 +83,12 @@ def makeNFA(dfa_1, dfa_2):
 		print(state, next_state_sets)
 
 		#nfa[state] = next_state_sets
+def makeDFAs(alphabet, n):
 
-dfa_1 = createArray([1, 3], 7)
-dfa_2 = createArray([1, 3], 7)
+	return createArray(alphabet, n), createArray(alphabet, n)
+	
+dfa_1, dfa_2 = makeDFAs([1, 3, 5], 7)
+
 
 makeNFA(dfa_1, dfa_2)
 # change to python
