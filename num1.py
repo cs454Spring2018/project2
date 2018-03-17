@@ -47,50 +47,42 @@ def createArray(alphabet, n):
 
     return [ [ [( remainder * 10 + letter ) % n] for letter in alphabet ] for remainder in range(n) ]
 def makeNFA(dfa_1, dfa_2):
-	print()
-	#[print(i, j) for i, j in enumerate(dfa_1)]
-	#print()
-	#[print(i, j) for i, j in enumerate(dfa_2)]
 
 	next_state_value = len(dfa_1)
-	#print(next_state_value)
-	#print()
+
 	nfa = [0] * next_state_value
 	for state, next_state_sets in enumerate(dfa_1):
 		nfa[state] = next_state_sets
 		for i, next_states in enumerate(next_state_sets):
 			nfa[state][i].append(state + next_state_value)
-		#print(state, nfa[state])
 
 
-	#print()
 	new_dfa = [0] * next_state_value
 	for state, next_state_sets in enumerate(dfa_2):
 
 		new_dfa[state] = []
 
 		for i, next_states in enumerate(next_state_sets):
-			#print(dfa_2[state][i][0] + next_state_value)
+
 			new_dfa[state].append([dfa_2[state][i][0] + next_state_value])
-		#print(state + next_state_value, new_dfa[state])
+
 
 	for state, next_state_sets in enumerate(new_dfa):
 		nfa.append(next_state_sets)
 
-	print()
-	for state, next_state_sets in enumerate(nfa):
+	return nfa
 
-		print(state, next_state_sets)
-
-		#nfa[state] = next_state_sets
 def makeDFAs(alphabet, n):
 
 	return createArray(alphabet, n), createArray(alphabet, n)
-	
+
 dfa_1, dfa_2 = makeDFAs([1, 3, 5], 7)
 
 
-makeNFA(dfa_1, dfa_2)
+nfa = makeNFA(dfa_1, dfa_2)
+print()
+for state, next_state_sets in enumerate(nfa):
+	print(state, next_state_sets)
 # change to python
 #nfaToDfa = () =>
 #{
