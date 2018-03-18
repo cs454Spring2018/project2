@@ -76,7 +76,7 @@ def makeDFAs(alphabet, n):
 
 	return createArray(alphabet, n), createArray(alphabet, n)
 
-dfa_1, dfa_2 = makeDFAs([1, 3, 5], 7)
+dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
 
 nfa = makeNFA(dfa_1, dfa_2)
