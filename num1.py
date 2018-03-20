@@ -1,11 +1,5 @@
 # 0, 1
-table = [
-		[[0, 1], [0, 2]],
-		[[2, 1], [3, 0]],
-		[[1], [0]],
-		[[3], [1, 2]]
-]
-accepting_states = [2, 3]
+
 def visitNFA(table, input_, accepting_states):
 
 	number_of_states = len(table)
@@ -26,7 +20,13 @@ def visitNFA(table, input_, accepting_states):
 		if active_states[s]:
 			return True
 	return False
-
+table = [
+		[[0, 1], [0, 2]],
+		[[2, 1], [3, 0]],
+		[[1], [0]],
+		[[3], [1, 2]]
+]
+accepting_states = [2, 3]
 print(visitNFA(table, [0, 1], accepting_states))
 
 table2 = [
@@ -38,7 +38,7 @@ table2 = [
 		[[4], [4]]
 	]
 accepting_states2 = [4]
-print(visitNFA(table2, [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], accepting_states2))
+#print(visitNFA(table2, [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], accepting_states2))
 
 def createArray(alphabet, n):
 
