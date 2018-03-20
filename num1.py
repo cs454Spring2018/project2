@@ -48,6 +48,7 @@ def createArray(alphabet, n):
     return [ [ [( remainder * 10 + letter ) % n] for letter in alphabet ] for remainder in range(n) ]
 def makeNFA(dfa_1, dfa_2):
 
+	# possible accepting state because the second dfa accepts at this state, as it is the first state for the second dfa
 	next_state_value = len(dfa_1)
 
 	nfa = [0] * next_state_value
@@ -70,19 +71,25 @@ def makeNFA(dfa_1, dfa_2):
 	for state, next_state_sets in enumerate(new_dfa):
 		nfa.append(next_state_sets)
 
-	return nfa
+	return nfa, [next_state_value]
 
 def makeDFAs(alphabet, n):
 
 	return createArray(alphabet, n), createArray(alphabet, n)
 
+def convertToList(number_as_string):
+	return [int(i) for i in number_as_string]
+
+def stronglyNotDivisible(nfa, string, accepting_states):
+	return not visitNFA(nfa, string, accepting_states)
 dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
-
-nfa = makeNFA(dfa_1, dfa_2)
+nfa, accepting_states = makeNFA(dfa_1, dfa_2)
 print()
 for state, next_state_sets in enumerate(nfa):
 	print(state, next_state_sets)
+
+print(stronglyNotDivisible(nfa, convertToList('741842607938866199443579680083706254648829519399268'), accepting_states))
 # change to python
 #nfaToDfa = () =>
 #{
