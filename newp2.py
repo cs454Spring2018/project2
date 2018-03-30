@@ -9,15 +9,15 @@ def visitNFA(table, input_, accepting_states):
     number_of_states = len(table)
     #print(len(table))
     active_states = [1] + ([0] * number_of_states)
-    print(input_)
+    #print(input_)
     for char in input_:
         temp = [0] * number_of_states
         next_states = []
         for i, state in enumerate(active_states):
             if state:
                 # [row][column]
-                [print(i) for i in table]
-                print(i, char)
+                #[print(i) for i in table]
+                #print(i, char)
                 for j in table[i][char]:
                     #print(table[i][char])
                     next_states.append(j)
@@ -30,26 +30,6 @@ def visitNFA(table, input_, accepting_states):
             return True
     return False
 
-table = [
-        [[0, 1], [0, 2]],
-        [[2, 1], [3, 0]],
-        [[1], [0]],
-        [[3], [1, 2]]
-]
-
-accepting_states = [2, 3]
-#print(visitNFA(table, [0, 1], accepting_states))
-
-table2 = [
-
-        [[0], [0, 1]],
-        [[2], [2]],
-        [[3], [1]],
-        [[3], [3, 4]],
-        [[4], [4]]
-    ]
-accepting_states2 = [4]
-#print(visitNFA(table2, [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], accepting_states2))
 
 def createArray(alphabet, n):
 
@@ -68,11 +48,11 @@ def makeNFA(dfa_1, dfa_2):
         for i, next_states in enumerate(next_state_sets):
             nfa[state][i].append(state + next_state_value)
 
-    for state, next_state_sets in enumerate(nfa):
-        print(state, next_state_sets)
+    #for state, next_state_sets in enumerate(nfa):
+        #print(state, next_state_sets)
 
-    print()
-    print()
+    #print()
+    #print()
     new_dfa = [0] * next_state_value
     for state, next_state_sets in enumerate(dfa_2):
 
@@ -86,8 +66,8 @@ def makeNFA(dfa_1, dfa_2):
     for state, next_state_sets in enumerate(new_dfa):
         nfa.append(next_state_sets)
 
-    for state, next_state_sets in enumerate(new_dfa):
-        print(state + 7, next_state_sets)
+    #for state, next_state_sets in enumerate(new_dfa):
+        #print(state + 7, next_state_sets)
 
 
     return nfa, [next_state_value, 0]
@@ -103,12 +83,9 @@ def convertToList(number_as_string):
 # rejects strings not strongly divisible by n
 def stronglyNotDivisible(nfa, string, accepting_states):
     return visitNFA(nfa, string, accepting_states)
-dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
-nfa, accepting_states = makeNFA(dfa_1, dfa_2)
-
-print(visitNFA(nfa, convertToList('741842607938866199443579680083706254648829519399268'), accepting_states))
-exit()
+#print(visitNFA(nfa, convertToList('741842607938866199443579680083706254648829519399268'), accepting_states))
+#exit()
 # randrange gives you an integral value
 #irand = randrange(0, 100000000000000000000000000000000000000000000000000)
 def checkGoodValues(irand, mod_val):
@@ -119,17 +96,17 @@ def checkGoodValues(irand, mod_val):
         if irand % mod_val == 0:
             string_test = str(irand)
             strings = []
-            print(string_test, j)
+            #print(string_test, j)
 
             for i, a in enumerate(string_test):
                 #print(string_test[0:i] + string_test[i+1:])
                 if int(string_test[0:i] + string_test[i+1:]) % mod_val == 0:
                     strings.append(string_test[0:i] + string_test[i+1:])
-            print(len(strings), len(string_test))
+            #print(len(strings), len(string_test))
 
             #if
             if len(strings) >= 50:
-                print(string_test)
+                #print(string_test)
                 #exit()
                 #[print(a) for a in strings]
                 #print('yes')
@@ -140,7 +117,7 @@ def checkGoodValues(irand, mod_val):
         irand = randrange(0, 10000000000000000000000000000000000000000000000000000000000000000000000000000)
         #print()
         j += 1
-    print(str(irand))
+    #print(str(irand))
 
 def checkBadValues(irand, mod_val):
     j = 0
@@ -150,13 +127,13 @@ def checkBadValues(irand, mod_val):
         if irand % mod_val != 0:
             string_test = str(irand)
             strings = []
-            print(string_test, j)
+            #print(string_test, j)
 
             for i, a in enumerate(string_test):
                 #print(string_test[0:i] + string_test[i+1:])
                 if int(string_test[0:i] + string_test[i+1:]) % mod_val != 0:
                     strings.append(string_test[0:i] + string_test[i+1:])
-            print(len(strings), len(string_test))
+            #print(len(strings), len(string_test))
             #if
             #if len(strings) >= 50:
             #print(string_test)
@@ -168,7 +145,7 @@ def checkBadValues(irand, mod_val):
 
             #exit()
         irand = randrange(0, 10000000000000000000000000000000000000000000000000000000000000000000000000000)
-        print()
+        #print()
         j += 1
     print(str(irand))
 #checkGoodValues(randrange(0, 10000000000000000000000000000000000000000000000000000000000000000000000000000), 7776)
@@ -196,14 +173,6 @@ def makeStrongDivisibleKIsFourDigits(k):
                 scalar += 1
                 possible_value = scalar * k
 
-NFA = [
-    [[0, 1], [0, 3]],
-    [[0, 2], [1, 2]],
-    [[3, 0], [0]],
-    [[], []],
-
-]
-
 import copy
 def currentStates(current_state):
 
@@ -216,12 +185,12 @@ def currentStates(current_state):
 def nextStates(A, col, current_states):
 
     current_col = set()
-    
-    [print(i) for i in A]
-    
-    print("HERE")
+
+    #[print(i) for i in A]
+
+    #print("HERE")
     for state in current_states:
-        print(state, " " , col)
+        #print(state, " " , col)
         for next_state in A[state][col]:
             current_col.add(next_state)
     #print("HERE")
@@ -230,7 +199,7 @@ def nextStates(A, col, current_states):
 def nextComboState(A, combo_state):
 
     next_combo_states = []
-    print(A[0][0])
+    #print(A[0][0])
  #  print(A[0])
     for col, next_states in enumerate(A[0][0]):
         current_states = currentStates(combo_state)
@@ -239,15 +208,15 @@ def nextComboState(A, combo_state):
 
         next_combo_states.append(('_'.join([str(j) for j in current_states]),
                                 '_'.join([str(i) for i in sorted(copy.deepcopy(current_col))])))
-        print("SUPERHERE")
+        #print("SUPERHERE")
     return next_combo_states
 
 def makeRow(B, combo_state, A, next_combo_states):
+	row = []
+	for i, next_state in enumerate(next_combo_states):
+		row.append(next_state[1])
 
-    row = [0] * len(A[0])
-    for i, next_state in enumerate(next_combo_states):
-        row[i] = next_state[1]
-    return row
+	return row
 
 def addAcceptingStatesToF(current_combo_state, F, combo_state, accepting_states):
 
@@ -303,7 +272,7 @@ j += 1
 i -= 1
 if i == 0
 
-    
+
     append children at current node to counter(add to a sum and then append the sum)
     level += 1
     i = j
@@ -317,6 +286,7 @@ after first node is done
     append count
 
 '''
+
 def testing(F):
     counter = 0
     for i in F:
@@ -325,24 +295,26 @@ def testing(F):
     return counter
 
 def convertToRead(dfa, f):
-        new_dfa = []
-        for key in dfa.keys():
-            next_states = []
-            for next_state in dfa[key]:
-                next_states.append(int(''.join(list(reversed(next_state.split('_'))))))
-                #print(next_state)
-            new_dfa.append(next_states)
+	#print(dfa)
+	new_dfa = []
+	for key in dfa.keys():
+		next_states = []
+		for next_state in dfa[key]:
+			#print(type(next_state))
+			next_states.append(int(''.join(list(reversed(next_state.split('_'))))))
+			#print(next_state)
+		new_dfa.append(next_states)
 
-        new_F = [int(''.join(list(reversed(key.split('_'))))) for key in f]  
-        #[print(i) for i in new_dfa]
-        #print(new_F)
-        return new_dfa, new_F
+	new_F = [int(''.join(list(reversed(key.split('_'))))) for key in f]
+	#[print(i) for i in new_dfa]
+	#print(new_F)
+	return new_dfa, new_F
 
 def convertToProperllyConvertedDFA(dfa, f, dictionary):
         new_dfa = []
         for key, row in enumerate(dfa):
             next_states = []
-            print(dfa[key])
+            #print(dfa[key])
             for next_state in dfa[key]:
                 #for value in next_state:
                 next_states.append(dictionary[next_state] )
@@ -350,12 +322,122 @@ def convertToProperllyConvertedDFA(dfa, f, dictionary):
                 #print(next_state)
             new_dfa.append(next_states)
 
-        new_F = [dictionary[key] for key in f]  
-        [print(i) for i in new_dfa]
-        print(new_F)
+        new_F = [dictionary[key] for key in f]
+        #[print(i) for i in new_dfa]
+        #print(new_F)
         return new_dfa, new_F
+#print('compliment accepting states')
+#print(new_accepting_states)
 
-dfa_1, dfa_2 = makeDFAs([1, 3], 7)
+#print(nfa)
+
+#print(stronglyNotDivisible(nfa, convertToList('741842607938866199443579680083706254648829519399268'), accepting_states))
+def Pop(queue):
+	item = queue[0]
+	del queue[0]
+	return item
+
+def Push(queue, item):
+
+	queue.append(item)
+	return queue
+
+
+def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
+
+	edge_input = {i:letter for i, letter in enumerate(alphabet)}
+	visited = [0] * len(state_transition_table)
+	sequences_found_so_far = [(-1, -1)] * len(state_transition_table)
+	queue = []
+	visited[start_state] = 1
+	queue = Push(queue, start_state)
+	level_counter = 1
+	i = 1
+	j = 0
+	print(accepting_states)
+	while (queue != []):
+		current_remainder = Pop(queue)
+		next_remainders = [(edge_input[i], NextRemainder) for i, NextRemainder in enumerate(state_transition_table[current_remainder])]
+
+		for y in next_remainders:
+			(letter, next_remainder) = y
+
+
+			if visited[next_remainder] == 0:
+				visited[next_remainder] = 1
+				sequences_found_so_far[next_remainder] = (current_remainder, letter)
+				queue = Push(queue, next_remainder)
+				j += 1
+
+				#0 is an accepting state
+			if next_remainder in accepting_states and level_counter == n - 1:
+				print(level_counter)
+
+				sequences_found_so_far[next_remainder] = (current_remainder, letter)
+				return recover(sequences_found_so_far, next_remainder)
+		i -= 1
+		if i == 0:
+			level_counter += 1
+			i = j
+			j = 0
+
+def recover(sequences_found_so_far, next_remainder):
+    sequence = []
+    (prev_state, input_index) = sequences_found_so_far[next_remainder]
+
+    sequence.insert(0, str(input_index))
+    while prev_state != 0:
+        (prev_state, input_index) = sequences_found_so_far[prev_state]
+        sequence.insert(0, str(input_index))
+
+    return ''.join(sequence)
+def createArray2(alphabet, n):
+
+    #test = alphabet
+    #print("Shortest multiple of " + str(n) + " using digits {" + ' '.join(map(str,alphabet)) + "}:")
+
+    return [ [ ( remainder * 10 + letter ) % n for letter in alphabet ] for remainder in range(n) ]
+
+'''
+table = [
+        [[0, 1], [0, 2]],
+        [[2, 1], [3, 0]],
+        [[1], [0]],
+        [[3], [1, 2]]
+]
+'''
+'''
+accepting_states = [2, 3]
+'''
+#print(visitNFA(table, [0, 1], accepting_states))
+'''
+table2 = [
+
+        [[0], [0, 1]],
+        [[2], [2]],
+        [[3], [1]],
+        [[3], [3, 4]],
+        [[4], [4]]
+    ]
+'''
+'''
+accepting_states2 = [4]
+'''
+#print(visitNFA(table2, [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], accepting_states2))
+
+dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
+
+nfa, accepting_states = makeNFA(dfa_1, dfa_2)
+'''
+NFA = [
+    [[0, 1], [0, 3]],
+    [[0, 2], [1, 2]],
+    [[3, 0], [0]],
+    [[], []],
+
+]
+'''
+dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
 nfa, accepting_states = makeNFA(dfa_1, dfa_2)
 #print()
@@ -366,10 +448,12 @@ nfa, accepting_states = makeNFA(dfa_1, dfa_2)
 
 #B, F = convertNFAToDFA(NFA, [1, 2])
 B, F = convertNFAToDFA(nfa, accepting_states)
-
+print(B)
+[print(i) for i in B]
+#exit()
 convertedDFA, convertedAcceptingStates = convertToRead(B, F)
 
-
+# 
 
 sortedKeys = sorted(B.keys())
 keyArray = list(sorted([ int(''.join(list(reversed(key.split('_'))))) for key in B.keys()]))
@@ -378,14 +462,14 @@ converted_state_number = { number : i for i, number in enumerate(keyArray) }
 properlyConvertedDFA, properlyConvertedAcceptingStates = convertToProperllyConvertedDFA(convertedDFA, convertedAcceptingStates, converted_state_number)
 
 new_accepting_states = set([i for i, row in enumerate(properlyConvertedDFA)]) - set(properlyConvertedAcceptingStates)
-#print('compliment accepting states')
+test_dfa = createArray2([i for i in range(1, 10)], 7)
+#[print(i) for i in test_dfa]
+#[print(i) for i in properlyConvertedDFA]
 #print(new_accepting_states)
+#exit()
+sequence = bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 5)
 
-#print(nfa)
-
-print(stronglyNotDivisible(nfa, convertToList('741842607938866199443579680083706254648829519399268'), accepting_states))
-
-
+print(sequence)
 #[print(i, converted_state_number[i]) for i in converted_state_number]
 '''
 #print(sortedKeys)
@@ -397,7 +481,7 @@ print(stronglyNotDivisible(nfa, convertToList('741842607938866199443579680083706
 print('dfa')
 for key in B.keys():
     print(B[key])
-    
+
 
 
 print('accepting states')
@@ -412,7 +496,7 @@ keys_left = keys - F
 print(testing(keys_left))
 '''
 
-    
+
 
 #print(makeStrongDivisibleKIsFourDigits(1000))
 
