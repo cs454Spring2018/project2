@@ -7,41 +7,64 @@ const readFile = async name => {
 
   let map = {}
   for (index in graph) {
-    let [ state1, state2 ] = graph[index].split('    ') // 3 or 4 not sure from picture
-    map[index] = [state1, state2]
+    map[index] = graph[index].split('  ')
   }
-  return map
+
+  return [map, state]
 }
 
-const mergeDFA = ([dfa1, dfa2]) => {
-  let dfa = {}, track = [], s = new Set()
-  if (Object.keys(dfa1).length === 0) return dfa2
-  if (Object.keys(dfa2).length === 0) return dfa1
+const mergeArray = (sArray, bArray) => {
+  return bArray.length > sArray.length
+    ? bArray.map((elem, i) => elem + '|' + (sArray[i] ? sArray[i] : ''))
+    : sArray.map((elem, i) => elem + '|' + (bArray[i] ? bArray[i] : ''))
+}
 
-  let [ t1, t2 ] = dfa1[0]
-  let [ t3, t4 ] = dfa2[0]
 
-  let nextVal1 = `${t1}${t3}`
-  let nextVal2 = `${t2}${t4}`
+const mergeDFA = data => {
+  let mainDFA = {}, s = new Set(), merged;
+  let [ [ dfa, states ], [ dfa1, states1 ] ] = data
 
-  track.push(nextVal1, nextVal2)
+  if (Object.keys(dfa).length === 0)  return dfa1
+  if (Object.keys(dfa1).length === 0) return dfa
 
-  while(track.length !== 0) {
-    let val = track.shift()
+  merged = mergeArray(dfa[0], dfa1[0])
+
+  let track = [...merged]
+  mainDFA['00'] = merged
+
+  while (track.length !== 0) {
+    let val = track.shift();
     if (!s.has(val)) {
-      s.add(val)
-      let [ lhs, rhs ] = val.split('')
-      let [ t1, t2 ] = dfa[lhs]
-      let [ t3, t4 ] = dfa[rhs]
-      dfa[val] = [`${t1}${t3}`, `${t2}${t4}`]
-      track.push(`${t1}${t3}`, `${t2}${t4}`)
+      let state1 = val.match(/(\d*)\|/)[1]
+      let state2 = val.match(/\|(\d*)/)[1]
+      merged = mergeArray(dfa[state1], dfa1[state2]);
+      mainDFA[`${state1}${state2}`] = merged;
+      track = [...track, ...merged]
+      s.add(val);
     }
   }
-  return dfa
+  return mainDFA
 }
 
+const cleanDFA = dfa => {
+  let newDFA = {}
+  for (item in dfa)
+    newDFA[parseInt(item)] = cleanArray(dfa[item])
+  return newDFA
+}
+
+const cleanArray = array => {
+  return array.map(item => {
+    let state1 = item.match(/(\d*)\|/)[1]
+    let state2 = item.match(/\|(\d*)/)[1]
+    return parseInt(`${state1}${state2}`)
+  })
+}
+
+
 (async () => {
-  let data = await Promise.all([readFile('dfa.txt'), readFile('dfa1.txt')])
+  let data = await Promise.all([readFile('dfa1.txt'), readFile('dfa2.txt')])
   let union = mergeDFA(data)
-  console.log(union)
+  let cleaned = cleanDFA(union)
+  console.log(cleaned)
 })()
