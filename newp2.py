@@ -312,8 +312,9 @@ def convertToRead(dfa, f):
 
 def convertToProperllyConvertedDFA(dfa, f, dictionary):
         new_dfa = []
-        for key, row in enumerate(dfa):
+        for i, key in enumerate(dfa.keys()):
             next_states = []
+
             #print(dfa[key])
             for next_state in dfa[key]:
                 #for value in next_state:
@@ -342,7 +343,7 @@ def Push(queue, item):
 	queue.append(item)
 	return queue
 
-
+# 9 is not strongly divisible by 7
 def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
 
 	edge_input = {i:letter for i, letter in enumerate(alphabet)}
@@ -351,10 +352,11 @@ def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
 	queue = []
 	visited[start_state] = 1
 	queue = Push(queue, start_state)
+	n += 1
 	level_counter = 1
 	i = 1
 	j = 0
-	print(accepting_states)
+	#print(accepting_states)
 	while (queue != []):
 		current_remainder = Pop(queue)
 		next_remainders = [(edge_input[i], NextRemainder) for i, NextRemainder in enumerate(state_transition_table[current_remainder])]
@@ -370,8 +372,9 @@ def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
 				j += 1
 
 				#0 is an accepting state
-			if next_remainder in accepting_states and level_counter == n - 1:
-				print(level_counter)
+			if next_remainder in accepting_states and level_counter == n:
+				#print(accepting_states, next_remainder)
+				print(level_counter - 1)
 
 				sequences_found_so_far[next_remainder] = (current_remainder, letter)
 				return recover(sequences_found_so_far, next_remainder)
@@ -425,9 +428,9 @@ accepting_states2 = [4]
 '''
 #print(visitNFA(table2, [1, 1, 1, 0, 1, 1, 1, 1, 0, 1], accepting_states2))
 
-dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
+#dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
-nfa, accepting_states = makeNFA(dfa_1, dfa_2)
+#nfa, accepting_states = makeNFA(dfa_1, dfa_2)
 '''
 NFA = [
     [[0, 1], [0, 3]],
@@ -437,39 +440,42 @@ NFA = [
 
 ]
 '''
-dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
+for i in range(10):
+	dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
-nfa, accepting_states = makeNFA(dfa_1, dfa_2)
-#print()
-#for state, next_state_sets in enumerate(nfa):
-    #print(state, next_state_sets)
+	nfa, accepting_states = makeNFA(dfa_1, dfa_2)
+	#print()
+	#for state, next_state_sets in enumerate(nfa):
+	    #print(state, next_state_sets)
 
-#print()
+	#print()
 
-#B, F = convertNFAToDFA(NFA, [1, 2])
-B, F = convertNFAToDFA(nfa, accepting_states)
-print(B)
-[print(i) for i in B]
-#exit()
-convertedDFA, convertedAcceptingStates = convertToRead(B, F)
+	#B, F = convertNFAToDFA(NFA, [1, 2])
+	B, F = convertNFAToDFA(nfa, accepting_states)
+	#print(B)
+	#[print(i) for i in B]
+	#exit()
+	#convertedDFA, convertedAcceptingStates = convertToRead(B, F)
 
-# 
+	#
 
-sortedKeys = sorted(B.keys())
-keyArray = list(sorted([ int(''.join(list(reversed(key.split('_'))))) for key in B.keys()]))
+	#sortedKeys = sorted(B.keys())
+	#keyArray = list(sorted([ int(''.join(list(reversed(key.split('_'))))) for key in B.keys()]))
 
-converted_state_number = { number : i for i, number in enumerate(keyArray) }
-properlyConvertedDFA, properlyConvertedAcceptingStates = convertToProperllyConvertedDFA(convertedDFA, convertedAcceptingStates, converted_state_number)
+	converted_state_number = { number : i for i, number in enumerate(B.keys()) }
+	properlyConvertedDFA, properlyConvertedAcceptingStates = convertToProperllyConvertedDFA(B, F, converted_state_number)
 
-new_accepting_states = set([i for i, row in enumerate(properlyConvertedDFA)]) - set(properlyConvertedAcceptingStates)
-test_dfa = createArray2([i for i in range(1, 10)], 7)
-#[print(i) for i in test_dfa]
-#[print(i) for i in properlyConvertedDFA]
-#print(new_accepting_states)
-#exit()
-sequence = bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 5)
+	new_accepting_states = set([i for i, row in enumerate(properlyConvertedDFA)]) - set(properlyConvertedAcceptingStates)
+	test_dfa = createArray2([i for i in range(1, 10)], 7)
+	#[print(i) for i in test_dfa]
+	#[print(i) for i in properlyConvertedDFA]
+	#print(new_accepting_states)
+	#exit()
+	sequence = int(bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 5))
 
-print(sequence)
+	print(sequence)
+
+
 #[print(i, converted_state_number[i]) for i in converted_state_number]
 '''
 #print(sortedKeys)
