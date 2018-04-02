@@ -9,7 +9,6 @@ const readFile = async name => {
   for (index in graph) {
     map[index] = graph[index].split('  ')
   }
-
   return [map, state, acceptingStates]
 }
 
@@ -20,19 +19,22 @@ const mergeArray = (sArray, bArray) => {
 }
 
 
-const mergeDFA = (dfa, dfa1) => {
-  let mainDFA = [], newStates = {}, s = new Set(), merged;
+const mergeDFA = (dfa, dfa1, accept, accept1) => {
+  let mainDFA = [], newStates = {}, s = new Set(), merged, accepting = [];
 
   if (Object.keys(dfa).length === 0)  return dfa1
   if (Object.keys(dfa1).length === 0) return dfa
 
-  merged = mergeArray(dfa[0], dfa1[0])
+  accept = new Set(accept)
+  accept1 = new Set(accept1)
 
+  merged = mergeArray(dfa[0], dfa1[0])
   let track = [...merged]
   mainDFA.push(merged)
   newStates['0|0'] = 0;
   s.add('0|0')
   let stateTrack = 1;
+
 
   while (track.length !== 0) {
     let val = track.shift();
@@ -41,65 +43,44 @@ const mergeDFA = (dfa, dfa1) => {
       newStates[val] = stateTrack++;
       let state1 = val.match(/(\d*)\|/)[1]
       let state2 = val.match(/\|(\d*)/)[1]
+
+      if (accept.has(state1) && accept1.has(state2)) { accepting.push(val); }
       merged = mergeArray(dfa[state1], dfa1[state2]);
       mainDFA.push(merged)
       track = [...track, ...merged]
       s.add(val);
     }
   }
-  return [ mainDFA, newStates ]
+  return [ mainDFA, newStates, accepting ]
 }
 
 
 const normalizeDFA = ([mainDFA, newStates]) => {
-  //n^2
   for (let i = 0; i < mainDFA.length; i++) {
     fixState(mainDFA[i], newStates)
   }
-
 }
-
 
 const fixState = (currentTransition, newStates) => {
   let data = ''
-  for (let i = 0; i < currentTransition.length; i++) {
+  for (let i = 0; i < currentTransition.length; i++)
     data += `${newStates[currentTransition[i].replace(' ', '')]}\t`
-  }
   console.log(data)
 }
 
-const createAcceptingStates = (accept, accept1, length) => {
-  accept = accept.split(' ')
-  accept1 = accept1.split(' ')
-  let data = new Set([...accept, ...accept1])
-  console.log(data)
+const printAcceptingStates = (newStates, accepting) => {
   let str = ''
-  for (let i = 0; i < length; i++){
-    if (isIn(i, data)) {str += `${i} `}
-  }
+  for (let i = 0; i < accepting.length; i++)
+    str += `${newStates[accepting[i]]}  `
   console.log(str)
-}
-
-const isIn = (iValue, data) => {
-  iValue = iValue.toString()
-
-  for (let i = 0; i < iValue.length; i++) {
-    if (!(data.has(iValue[i]))) {
-      return false;
-    }
-  }
-  return true;
 }
 
 
 (async () => {
   let [ [ dfa, states, acceptingStates ], [ dfa1, states1, acceptingStates1 ] ] =
       await Promise.all([readFile('dfa1.txt'), readFile('dfa2.txt')])
-  let union = mergeDFA(dfa, dfa1)
-  console.log(union)
-  createAcceptingStates(acceptingStates, acceptingStates1, union[0].length)
-  normalizeDFA(union)
-
-
-
+  let [ mainDFA, newStates, accepting ] = mergeDFA(dfa, dfa1, acceptingStates, acceptingStates1)
+  console.log(Object.keys(newStates).length)
+  printAcceptingStates(newStates, accepting)
+  normalizeDFA([mainDFA, newStates])
 })()
