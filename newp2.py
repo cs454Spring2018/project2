@@ -440,6 +440,7 @@ NFA = [
 
 ]
 '''
+# extra credit
 for i in range(10):
 	dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
@@ -483,10 +484,6 @@ for i in range(10):
 #print('accepting states')
 #print([1, 2, 3])
 #print()
-
-print('dfa')
-for key in B.keys():
-    print(B[key])
 
 
 
