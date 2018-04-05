@@ -95,10 +95,10 @@ def checkBadValues(irand, mod_val):
             for i, a in enumerate(string_test):
                 if int(string_test[0:i] + string_test[i+1:]) % mod_val != 0:
                     strings.append(string_test[0:i] + string_test[i+1:])
-            
+
         irand = randrange(0, 10000000000000000000000000000000000000000000000000000000000000000000000000000)
         j += 1
-    
+
 def makeStrongDivisibleKIsFourDigits(k):
 
     scalar = 1
@@ -211,12 +211,12 @@ def convertToProperllyConvertedDFA(dfa, f, dictionary):
         for i, key in enumerate(dfa.keys()):
             next_states = []
 
-            
+
             for next_state in dfa[key]:
-                
+
                 next_states.append(dictionary[next_state] )
 
-                
+
             new_dfa.append(next_states)
 
 
@@ -236,7 +236,6 @@ def Push(queue, item):
 
 # 9 is not strongly divisible by 7
 def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
-<<<<<<< HEAD
 
 	edge_input = {i:letter for i, letter in enumerate(alphabet)}
 	visited = [0] * len(state_transition_table)
@@ -244,11 +243,11 @@ def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
 	queue = []
 	visited[start_state] = 1
 	queue = Push(queue, start_state)
-	n += 1
-	level_counter = 1
+
+	level_counter = 0
 	i = 1
 	j = 0
-	#print(accepting_states)
+
 	while (queue != []):
 		current_remainder = Pop(queue)
 		next_remainders = [(edge_input[i], NextRemainder) for i, NextRemainder in enumerate(state_transition_table[current_remainder])]
@@ -265,61 +264,31 @@ def bfs(state_transition_table, start_state, alphabet, accepting_states, n):
 
 				#0 is an accepting state
 			if next_remainder in accepting_states and level_counter == n:
-				#print(accepting_states, next_remainder)
-				#print(level_counter - 1)
 
 				sequences_found_so_far[next_remainder] = (current_remainder, letter)
-				return recover(sequences_found_so_far, next_remainder)
+				return recover(sequences_found_so_far, next_remainder, n)
 		i -= 1
 		if i == 0:
 			level_counter += 1
+
 			i = j
 			j = 0
 	return 'none'
-=======
-    edge_input = {i:letter for i, letter in enumerate(alphabet)}
-    visited = [0] * len(state_transition_table)
-    sequences_found_so_far = [(-1, -1)] * len(state_transition_table)
-    queue = []
-    visited[start_state] = 1
-    queue = Push(queue, start_state)
-    n += 1
-    level_counter = 1
-    i = 1
-    j = 0
-    while (queue != []):
-        current_remainder = Pop(queue)
-	next_remainders = [(edge_input[i], NextRemainder) for i, NextRemainder in enumerate(state_transition_table[current_remainder])]
 
-	for y in next_remainders:
-	    (letter, next_remainder) = y
-	    if visited[next_remainder] == 0:
-	        visited[next_remainder] = 1
-		sequences_found_so_far[next_remainder] = (current_remainder, letter)
-		queue = Push(queue, next_remainder)
-		j += 1
-	    if next_remainder in accepting_states and level_counter == n:
-	        print(level_counter - 1)
-		sequences_found_so_far[next_remainder] = (current_remainder, letter)
-		return recover(sequences_found_so_far, next_remainder)
-	    i -= 1
-	    if i == 0:
-	    level_counter += 1
-	    i = j
-	    j = 0
-        return 'none'
->>>>>>> origin/master
+def recover(sequences_found_so_far, next_remainder, length):
+	sequence = []
+	(prev_state, input_index) = sequences_found_so_far[next_remainder]
 
-def recover(sequences_found_so_far, next_remainder):
-    sequence = []
-    (prev_state, input_index) = sequences_found_so_far[next_remainder]
+	sequence.insert(0, str(input_index))
+	length -= 1
+	while length > 0:
+		(prev_state, input_index) = sequences_found_so_far[prev_state]
+		sequence.insert(0, str(input_index))
 
-    sequence.insert(0, str(input_index))
-    while prev_state != 0:
-        (prev_state, input_index) = sequences_found_so_far[prev_state]
-        sequence.insert(0, str(input_index))
+		length -= 1
 
-    return ''.join(sequence)
+	return ''.join(sequence)
+
 def createArray2(alphabet, n):
     return [ [ ( remainder * 10 + letter ) % n for letter in alphabet ] for remainder in range(n) ]
 
@@ -337,11 +306,7 @@ def testConvertDFAEquivalence(nfa, accepting_states):
             else:
                 for i, next_state in enumerate(b[key_1]):
                     if next_state != c[key_2][i]:
-<<<<<<< HEAD
-                        print("Wrong")
-=======
                         print("THIS IS WRONG, next state should equal c[key_2][i]")
->>>>>>> origin/master
 
         if quitloop:
             exit()
@@ -352,16 +317,11 @@ def testConvertToProperllyConvertedDFA(dfa1, dfa2):
     for i, row in enumerate(dfa1):
         for j, col in enumerate(row):
             if col != dfa2[i][j]:
-<<<<<<< HEAD
-                print("WE ARE Wrong AGAIN")
-    print("WE ARE GOOD IF Wrong DIDNT SHOW")
-=======
                 print("our col in dfa1 did not equal dfa2, somethings wrong!")
                 quitloop = true
     if quitloop:
             exit()
     print("Convert to properlly converted dfa worked!")
->>>>>>> origin/master
 
 
 def convertTest(B, F):
@@ -379,54 +339,59 @@ def testExtraCredit(nfa, accepting_states, n, k):
         dfa_1, dfa_2 = makeDFAs([i for i in range(10)], k)
 
     #nfa, accepting_states = makeNFA(dfa_1, dfa_2)
-    
+
     B, F = convertNFAToDFA(nfa, accepting_states)
-    
+
 
     converted_state_number = { number : i for i, number in enumerate(B.keys()) }
     properlyConvertedDFA, properlyConvertedAcceptingStates = convertToProperllyConvertedDFA(B, F, converted_state_number)
 
     new_accepting_states = set([i for i, row in enumerate(properlyConvertedDFA)]) - set(properlyConvertedAcceptingStates)
     test_dfa = createArray2([i for i in range(1, 10)], k)
-    
+
     #int(len(str(n)))
     #when 17 gets put in it fucks up
-    sequence = int(bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 17))
+    sequence = bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, len(str(n)))
     if  sequence == -1:
         print("Could not find any integer with ", int(len(str(n))), " digits that is strongly not divisible by ", k,)
     else:
+
         print("The smallest integer with ", int(len(str(n))), " digits that is strongly not divisible by ", k, " is: ", sequence)
 
-    
+
     #print(len(str(n)))
 
     #for key in B.keys():
      #   print(B[key])
 
 def main():
-    if sys.version_info <= (3, 0):
-       sys.exit('You need python 3.0>')
+	if sys.version_info <= (3, 0):
+		sys.exit('You need python 3.0>')
 
-    k = int(input("Enter your k (at most 4 digits): "))
-    if k > 9999:
-        while k > 9999:
-            k = int(input("Your k is more then 4 digits, try again: "))
+	k = int(input("Enter your k (at most 4 digits): "))
+	if k > 9999:
+		while k > 9999:
+			k = int(input("Your k is more then 4 digits, try again: "))
 
-    dfa_1, dfa_2 = makeDFAs([i for i in range(10)], k)
-    nfa, accepting_states = makeNFA(dfa_1, dfa_2)
+	dfa_1, dfa_2 = makeDFAs([i for i in range(10)], k)
+	nfa, accepting_states = makeNFA(dfa_1, dfa_2)
 
-    [print(i) for i in nfa]
-    n = input("Enter an integer N (up to 100 digits: ")
+	[print(i) for i in nfa]
+	n = input("Enter an integer N (up to 100 digits: ")
 
 # 60602458739593758801428753207988572826358825383144 mod 7, 7777 passes
 
-    if stronglyNotDivisible(nfa, convertToList(n), accepting_states):
-        print("yes ", n, " is strongly not divisible by ", k)
-    else:
-        print("no ", n, " is strongly not divisible by ", k)
+	if stronglyNotDivisible(nfa, convertToList(n), accepting_states):
+		print("yes ", n, " is strongly not divisible by ", k)
+	else:
+		print("no ", n, " is strongly not divisible by ", k)
 
-    #fails after n is more then 16 digits long? wtf? 
-    testExtraCredit(nfa, accepting_states, n, k)
+	#fails after n is more then 16 digits long? wtf?
+	k = int(input('for extra credit reenter k but 0 <= k <= 100\n'))
+	n = int(input('for extra credit reenter n but 0 <= n <= 100 digits\n'))
+	dfa_3, dfa_4 = makeDFAs([i for i in range(10)], k)
+	nfa_2, accepting_states_2 = makeNFA(dfa_3, dfa_4)
+	testExtraCredit(nfa_2, accepting_states_2, n, k)
 
 
 main()
@@ -519,41 +484,16 @@ for i in range(10):
 	dfa_1, dfa_2 = makeDFAs([i for i in range(10)], 7)
 
 	nfa, accepting_states = makeNFA(dfa_1, dfa_2)
-	
+
 	B, F = convertNFAToDFA(nfa, accepting_states)
-	
+
 
 	converted_state_number = { number : i for i, number in enumerate(B.keys()) }
 	properlyConvertedDFA, properlyConvertedAcceptingStates = convertToProperllyConvertedDFA(B, F, converted_state_number)
 
 	new_accepting_states = set([i for i, row in enumerate(properlyConvertedDFA)]) - set(properlyConvertedAcceptingStates)
 	test_dfa = createArray2([i for i in range(1, 10)], 7)
-<<<<<<< HEAD
-	#[print(i) for i in test_dfa]
-	#[print(i) for i in properlyConvertedDFA]
-	#print(new_accepting_states)
-	#exit()
-	sequence = bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 5)
-	if sequence != 'none':
-		print(int(sequence))
-	else:
-		print(sequence)
 
-
-#[#print(i, converted_state_number[i]) for i in converted_state_number]
-#print(sortedKeys)
-
-#print('accepting states')
-#print([1, 2, 3])
-#print()
-
-
-#print('dfa')
-#for key in B.keys():
-#    print(B[key])
-
-=======
-	
 	sequence = int(bfs(properlyConvertedDFA, 0, [i for i in range(10)], new_accepting_states, 5))
 
 	print(sequence)
@@ -562,7 +502,6 @@ for i in range(10):
 for key in B.keys():
     print(B[key])
 '''
->>>>>>> origin/master
 
 
 #print('accepting states')
