@@ -389,18 +389,14 @@ def main():
 	#fails after n is more then 16 digits long? wtf?
 	k = int(input('for extra credit reenter k but 0 <= k <= 100\n'))
 	n = int(input('for extra credit reenter n but 0 <= n <= 100 digits\n'))
+	while k > 100 or len(str(n)) > 100:
+		print('reenter k and n')
+		k = int(input('for extra credit reenter k but 0 <= k <= 100\n'))
+		n = int(input('for extra credit reenter n but 0 <= n <= 100 digits\n'))
+
 	dfa_3, dfa_4 = makeDFAs([i for i in range(10)], k)
 	nfa_2, accepting_states_2 = makeNFA(dfa_3, dfa_4)
 	testExtraCredit(nfa_2, accepting_states_2, n, k)
 
 
 main()
-
-
-NFA = [
-    [[0, 1], [0, 3]],
-    [[0, 2], [1, 2]],
-    [[3, 0], [0]],
-    [[], []],
-
-]
