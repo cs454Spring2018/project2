@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+let hotFix = false;
+
 const readFile = async name => {
   let contents = await fs.readFileSync(name, 'utf8')
   let [ state, acceptingStates, ...graph ] = contents
@@ -33,6 +35,7 @@ const mergeDFA = (dfa, dfa1, accept, accept1) => {
   mainDFA.push(merged)
   newStates['0|0'] = 0;
   s.add('0|0')
+  if (accept.has('0') && accept1.has('0'))  hotfix = true
   let stateTrack = 1;
 
 
@@ -70,6 +73,7 @@ const fixState = (currentTransition, newStates) => {
 
 const printAcceptingStates = (newStates, accepting) => {
   let str = ''
+  if (hotfix) str += `0  `
   for (let i = 0; i < accepting.length; i++)
     str += `${newStates[accepting[i]]}  `
   console.log(str)
