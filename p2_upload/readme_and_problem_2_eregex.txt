@@ -8,6 +8,9 @@ cat dictionary.txt | egrep '(.)\1.*(.\1{2,})'
 file holding the words:
 p2_result.txt
 
+just the command:
+cat /usr/share/dict/words | egrep '(.)\1.*(.\1{2,})'
+
 how to run program:
 javascript
 node file_name
