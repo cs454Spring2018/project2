@@ -13,6 +13,8 @@ cat /usr/share/dict/words | egrep '(.)\1.*(.\1{2,})'
 
 how to run program:
 javascript
+javascript version:
+v9.11.0
 node file_name
 
 python 3
